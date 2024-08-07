@@ -1,0 +1,14 @@
+namespace: "cnovak"
+name: "homelab_config"
+version: "0.1.1"
+readme: "README.md"
+authors:
+    - "Christopher Novak (example@gmail.com)"
+#dependencies:
+#    "other_namespace.collection1": ">=1.0.0"
+license:
+    - "MIT"
+tags:
+    - demo
+    - collection
+repository: "https://github.com/cjnovak98/homelab-automation.git"
