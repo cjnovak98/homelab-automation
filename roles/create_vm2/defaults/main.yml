@@ -1,13 +1,2 @@
 ---
-- name: Create VM's in a "variablized" way.
-  hosts: all
-  vars_files:
-    - "vars.yml"
-  become: true
-  tasks:
-    # - name: Copy VM over
-    # command: cp "{{ baseline_image }}" "{{ disk_path }}" ## Don't scream at me, I'm being lazy. It'll get converted into idempotent language.
-    - name: Create a new VM
-      community.libvirt.virt:
-        command: define
-        xml: "{{ lookup('template', 'vm.xml.j2') }}"
+### Placeholder
