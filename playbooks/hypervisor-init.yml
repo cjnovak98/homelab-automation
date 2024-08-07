@@ -1,10 +1,20 @@
 ---
   - name: Initial Setup of Hypervisors
-    hosts: hypervisors
+    hosts: all
     become: yes
-    become_user: root
-    remote_user: cnovak
+    vars:
+      username: cnovak
+    remote_user: "{{ username }}"
+
     tasks:
+
+      - name: Allow the backup user to sudo /usr/local/bin/backup
+        community.general.sudoers:
+          name: allow-sudo
+          state: present
+          user: "{{ username }}"
+          commands: ALL
+          nopassword: true
 
       ## Virtualization and sushy packages setup
       - name: Ensure the "Virtualization" Group is installed.
@@ -14,7 +24,7 @@
 
       - name: Append libvirt to cnovak user
         user:
-          name: cnovak
+          name: "{{ username }}"
           groups:
             - wheel
             - libvirt

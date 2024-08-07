@@ -1,0 +1,19 @@
+<domain type='kvm'>
+  <name>{{ vm_name }}</name>
+  <memory unit='KiB'>{{ memory_in_kib }}</memory>
+  <vcpu>{{ num_vcpus }}</vcpu>
+  <os>
+    <type arch='x86_64' machine='pc'>hvm</type>
+  </os>
+  <devices>
+    <disk type="file" device="cdrom">
+      <driver name="qemu" type="raw"/>
+      <source pool="ISOs" volume="{{ iso_name }}"/>
+      <target dev="sda" bus="sata"/>
+      <readonly/>
+    </disk>
+    <interface type='network'>
+      <source network='default'/>
+    </interface>
+  </devices>
+</domain>

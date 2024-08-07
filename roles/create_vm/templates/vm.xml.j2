@@ -6,9 +6,11 @@
     <type arch='x86_64' machine='pc'>hvm</type>
   </os>
   <devices>
-    <disk type='file' device='disk'>
-      <driver name='qemu' type='qcow2'/>
-      <source file='{{ disk_path }}'/>
+    <disk type="file" device="cdrom">
+      <driver name="qemu" type="raw"/>
+      <source pool="ISOs" volume="{{ iso_name }}"/>
+      <target dev="sda" bus="sata"/>
+      <readonly/>
     </disk>
     <interface type='network'>
       <source network='default'/>

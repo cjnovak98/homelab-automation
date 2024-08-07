@@ -1,5 +1,0 @@
-        vm_name: my_vm
-        memory_in_kib: 1048576 # 1GB in KiB
-        num_vcpus: 2
-        baseline_image: /Volumes/OS2/rhel8.4-baseimg
-        disk_path: /Volumes/OS2/rhel8.4-testvm
