@@ -5,4 +5,4 @@
 - name: Create a new VM
   community.libvirt.virt:
     command: define
-    xml: "{{ lookup('template', 'vm.xml.j2') }}"
+    xml: "{{ lookup('template', 'vm_xml.j2') }}"
