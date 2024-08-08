@@ -1,6 +1,5 @@
 ---
 ### Placeholder
-
 vm_name: rhel9
 memory_in_kib: 6000000 # 6GB in KiB
 num_vcpus: 4
