@@ -4,8 +4,8 @@ version: "0.1.1"
 readme: "README.md"
 authors:
     - "Christopher Novak (example@gmail.com)"
-#dependencies:
-#    "other_namespace.collection1": ">=1.0.0"
+dependencies:
+    "community.libvirt": ">=1.0.0"
 license:
     - "MIT"
 tags:
