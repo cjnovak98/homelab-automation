@@ -10,7 +10,13 @@
   ansible.builtin.include_vars:
     file: mac_addresses.json
     name: saved_mac_addresses
-  ignore_errors: yes  # Allow the playbook to continue if the file does not exist
+  ignore_errors: yes
+  register: mac_addresses_result
+
+- name: Set default saved_mac_addresses if file did not exist
+  set_fact:
+    saved_mac_addresses: "{{ saved_mac_addresses | default({}) }}"
+  when: mac_addresses_result.failed
 
 - name: Generate MAC addresses for VMs
   set_fact:
@@ -25,6 +31,11 @@
   loop: "{{ vms }}"
   loop_control:
     loop_var: item
+
+- name: Save updated MAC addresses to file
+  ansible.builtin.copy:
+    content: "{{ updated_mac_addresses | to_json }}"
+    dest: mac_addresses.json
 
 - name: Save updated MAC addresses to file
   ansible.builtin.copy:
