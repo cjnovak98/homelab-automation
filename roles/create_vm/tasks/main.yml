@@ -1,4 +1,17 @@
 ---
+- name: Check if the MAC address file exists
+  stat:
+    path: vm_macs.yml
+  register: mac_file
+
+- name: Load existing MAC addresses if they exist
+  include_vars:
+    file: vm_macs.yml
+  when: mac_file.stat.exists
+
+- name: Set default VM definitions (with MAC address generation if not set)
+  set_fact:
+    vms: "{{ vms | map('combine', {'mac_address': vm.mac_address if 'mac_address' in vm else (lookup('community.general.gen_random_mac', '52:54:00') | lower)}) | list }}"
 
     # - name: Copy VM over
     # command: cp "{{ baseline_image }}" "{{ disk_path }}" ## Don't scream at me, I'm being lazy. It'll get converted into idempotent language.
