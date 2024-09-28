@@ -4,7 +4,7 @@ vms:
   - vm_name: rhel9
     memory_in_kib: 6000000 # 6GB in KiB
     num_vcpus: 4
-    mac_address: ""
+    #mac_address: ""
     #baseline_image: /Volumes/OS2/rhel8.4-baseimg
     disk_path: ""
     iso_name: ""
