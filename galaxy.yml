@@ -6,6 +6,7 @@ authors:
     - "Christopher Novak (example@gmail.com)"
 dependencies:
     "community.libvirt": ">=1.0.0"
+    "community.general": "9.4.0"
 license:
     - "MIT"
 tags:

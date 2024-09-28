@@ -6,3 +6,4 @@
   community.libvirt.virt:
     command: define
     xml: "{{ lookup('template', 'vm_xml.j2') }}"
+  loop: "{{ vms }}"

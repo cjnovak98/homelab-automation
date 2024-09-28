@@ -1,0 +1,32 @@
+---
+  - name: Initial Setup of Hypervisors
+    hosts: 192.168.1.132
+    become: yes
+    become_user: root
+    remote_user: cnovak
+    tasks:
+
+      ## Virtualization and sushy packages setup
+      - name: Ensure the "Virtualization" Group is installed.
+        yum:
+          name: "podman,bind-utils,cloud-init,python3-jmespath,cockpit,openssh-askpass,ansible,git"
+          state: installed
+
+      - name: Make sure share dir is created
+        file:
+          path: /mnt/share
+          state: directory
+
+      - name: Start and enable firewalld and cockpit.
+        ansible.builtin.service:
+          name: "{{ item }}"
+          state: started
+          enabled: yes
+        loop:
+          - firewalld
+          - cockpit
+      - name: Configure Git
+        ansible.builtin.command: 
+          cmd: git config --global user.name "Christopher Novak" && git config --global user.email "cnovak@redhat.com"
+
+
