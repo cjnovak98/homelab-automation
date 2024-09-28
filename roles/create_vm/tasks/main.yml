@@ -1,26 +1,10 @@
 ---
-- name: Check if the MAC address file exists
-  stat:
-    path: vm_macs.yml
-  register: mac_file
-
-- name: Load existing MAC addresses if they exist
-  include_vars:
-    file: vm_macs.yml
-  when: mac_file.stat.exists
-
-
 - name: Set default VM definitions (with MAC address generation if not set)
   set_fact:
     vms: "{{ vms | map('combine', {'mac_address': item.mac_address if item.mac_address is defined else ('52:54:00' | community.general.random_mac)}) | list }}"
   loop: "{{ vms }}"
   loop_control:
     loop_var: item
-
-- name: Save MAC addresses to a file for persistence
-  copy:
-    content: "{{ vms | to_nice_yaml }}"
-    dest: vm_macs.yml
 
 
 
