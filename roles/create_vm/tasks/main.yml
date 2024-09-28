@@ -9,3 +9,4 @@
   loop: "{{ vms }}"
   loop_control:
     loop_var: vm
+  become: true
