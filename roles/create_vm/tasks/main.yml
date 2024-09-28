@@ -20,7 +20,7 @@
 - name: Save MAC addresses to a file for persistence
   copy:
     content: "{{ vms | to_nice_yaml }}"
-    dest: /path/to/mac_addresses.yml
+    dest: vm_macs.yml
 
 
 
