@@ -7,3 +7,5 @@
     command: define
     xml: "{{ lookup('template', 'vm_xml.j2') }}"
   loop: "{{ vms }}"
+  loop_control:
+    loop_var: vm
