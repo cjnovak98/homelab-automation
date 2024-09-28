@@ -9,9 +9,21 @@
     file: vm_macs.yml
   when: mac_file.stat.exists
 
+
 - name: Set default VM definitions (with MAC address generation if not set)
   set_fact:
-    vms: "{{ vms | map('combine', {'mac_address': vm.mac_address if 'mac_address' in vm else (lookup('community.general.gen_random_mac', '52:54:00') | lower)}) | list }}"
+    vms: "{{ vms | map('combine', {'mac_address': item.mac_address if item.mac_address is defined else lookup('community.general.gen_random_mac', '52:54:00') | lower }) | list }}"
+  loop: "{{ vms }}"
+  loop_control:
+    loop_var: item
+
+- name: Save MAC addresses to a file for persistence
+  copy:
+    content: "{{ vms | to_nice_yaml }}"
+    dest: /path/to/mac_addresses.yml
+
+
+
 
     # - name: Copy VM over
     # command: cp "{{ baseline_image }}" "{{ disk_path }}" ## Don't scream at me, I'm being lazy. It'll get converted into idempotent language.
