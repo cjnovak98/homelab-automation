@@ -5,5 +5,5 @@ vms:
     memory_in_kib: 6000000 # 6GB in KiB
     num_vcpus: 4
     #baseline_image: /Volumes/OS2/rhel8.4-baseimg
-    disk_path: /Volumes/OS2/rhel8.4-testvm
-    iso_name: rhel-8.6-x86_64-dvd.iso
+    disk_path: ""
+    iso_name: ""
