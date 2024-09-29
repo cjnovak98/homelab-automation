@@ -5,19 +5,12 @@
     state: directory
   become: true
 
-- name: Generate user accounts
+- name: Generate user and service accounts
   ansible.builtin.user:
     name: "{{ item }}"
-  loop: "{{ users }}"
-  loop_control:
-    label: "{{ item }}"
-  become: true
-
-- name: Generate service accounts
-  ansible.builtin.user:
-    name: "{{ item }}"
-    password: "*"
-  loop: "{{ service_accounts }}"
+  loop: 
+    - "{{ users }}"
+    - "{{ service_accounts }}"
   loop_control:
     label: "{{ item }}"
   become: true
@@ -37,7 +30,7 @@
 
 # This must be after setting up passwordless sudo and the authorized_keys.
 
-- name: Allow {{ item }} to sudo nopasswd
+- name: Allow users to sudo nopasswd
   community.general.sudoers:
     name: allow-sudo
     state: present
