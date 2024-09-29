@@ -18,29 +18,38 @@
     label: "{{ item }}"
   become: true
 
-- name: Get all public key file paths in the directory
-  set_fact:
-    pub_key_paths: "{{ lookup('fileglob', 'auth_keys/*.pub', wantlist=true) | list }}"
+- name: Find all public key files in the auth_keys directory
+  ansible.builtin.find:
+    paths: "{{ auth_keys_dir }}"
+    patterns: "*.pub"
+  register: pub_key_files
 
-- name: Display the content of all public key files
-  debug:
-    msg: "{{ pub_key_paths | map('extract', lookup('file')) | join('\n') }}"
+- name: Read all public key contents
+  ansible.builtin.set_fact:
+    pub_keys: "{{ pub_keys | default([]) + [ lookup('file', item.path) ] }}"
+  loop: "{{ pub_key_files.files }}"
+  loop_control:
+    label: "{{ item.path }}"
 
-- name: Display the content of each public key file
-  debug:
-    msg: "{{ lookup('file', item) }}"
-  loop: "{{ pub_key_paths }}"
+- name: Add each public key to authorized_keys for all users
+  ansible.builtin.authorized_key:
+    user: "{{ item.0 }}"
+    path: "/home/{{ item.0 }}/.ssh/authorized_keys"
+    key: "{{ item.1 }}"
+    state: present
+    exclusive: no
+  loop: "{{ users + service_accounts | product(pub_keys) | list }}"
+  loop_control:
+    label: "{{ item.0 }} - adding key"
 
 #- name: create {{ item }}'s authorized_keys
 #  become: true
 #  authorized_key:
 #    user: "{{ item }}"
 #    path: "/home/{{ item }}/.ssh/authorized_keys"
-#    key: |
-#      {{ lookup('file', 'ansible.ed25519.key.pub') }}
-#      {{ lookup('file', 'ansible.rsa.key.pub') }}
-#    exclusive: false
-#  loop: "{{ lookup(<pull all .pub files in the auth_keys dir) }}"
+#    key: {{ combined_keys }}
+#    exclusive: true
+#  loop: "{{ users + service_accounts }}"
 #  loop_control:
 #    label: "{{ item }}"
 
