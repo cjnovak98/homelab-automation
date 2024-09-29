@@ -13,6 +13,7 @@
     paths: "{{ auth_keys_dir }}"
     patterns: "*.pub"
   register: pub_key_files
+  delegate_to: localhost
 
 - name: Read all public key contents
   ansible.builtin.set_fact:
@@ -20,6 +21,7 @@
   loop: "{{ pub_key_files.files }}"
   loop_control:
     label: "{{ item.path }}"
+  delegate_to: localhost
 
 - name: Add each public key to authorized_keys for all users
   ansible.builtin.authorized_key:
