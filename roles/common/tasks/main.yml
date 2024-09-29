@@ -1,6 +1,83 @@
 ---
-# tasks file for common
-- name: Install collection community.network
-  community.general.ansible_galaxy_install:
-    type: collection
-    requirements_file: "{{ role_path }}/files/requirements.yml"
+- name: Make sure share dir is created
+  file:
+    path: /mnt/share
+    state: directory
+
+- name: Generate user accounts
+  ansible.builtin.user:
+    name: "{{ item }}"
+  loop: "{{ users }}"
+  loop_control:
+    label: "{{ item }}"
+
+- name: Generate service accounts
+  ansible.builtin.user:
+    name: "{{ item }}"
+    password: "*"
+  loop: "{{ service_accounts }}"
+  loop_control:
+    label: "{{ item }}"
+
+#- name: create {{ item }}'s authorized_keys
+#  become: true
+#  authorized_key:
+#    user: "{{ item }}"
+#    path: "/home/{{ item }}/.ssh/authorized_keys"
+#    key: |
+#      {{ lookup('file', 'ansible.ed25519.key.pub') }}
+#      {{ lookup('file', 'ansible.rsa.key.pub') }}
+#    exclusive: false
+#  loop: "{{ lookup(<pull all .pub files in the auth_keys dir) }}"
+#  loop_control:
+#    label: "{{ item }}"
+
+# This must be after setting up passwordless sudo and the authorized_keys.
+
+- name: Allow {{ item }} to sudo nopasswd
+  community.general.sudoers:
+    name: allow-sudo
+    state: present
+    user: "{{ item }}"
+    commands: ALL
+    nopassword: true
+  loop: "{{ users }}"
+  loop_control:
+    label: "{{ item }}"
+
+## Virtualization and sushy packages setup
+- name: Install all required packages.
+  yum:
+    name: "@Virtualization,podman,bind-utils,libguestfs-tools,cloud-init,virt-install,lm_sensors, python3-jmespath, cockpit, cockpit-machines,openssh-askpass"
+    state: installed
+
+- name: Append libvirt,wheel to {{ item }} user
+  user:
+    name: "{{ item }}"
+    groups:
+      - wheel
+      - libvirt
+  loop: "{{ users }}"
+  loop_control:
+    label: "{{ item }}"
+
+- name: Allow {{ item }} sudo, and disable password login
+  community.general.sudoers:
+    name: "allow-sudo-{{ item }}"
+    state: present
+    user: "{{ item }}"
+    commands: ALL
+    nopassword: true
+  loop:
+    - "{{ service_accounts }}"
+    - "{{ users }}"
+  loop_control:
+    label: "{{ item }}"
+
+- name: Remove service account passwords
+  ansible.builtin.user:
+    name: "{{ item }}"
+    password: "*"
+  loop: "{{ service_accounts }}"
+  loop_control:
+    label: "{{ item }}"

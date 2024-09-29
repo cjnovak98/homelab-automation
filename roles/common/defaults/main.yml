@@ -1,2 +1,7 @@
 ---
 # defaults file for common
+users:
+  - cnovak
+  - mnovak
+service_accounts:
+  - ansible

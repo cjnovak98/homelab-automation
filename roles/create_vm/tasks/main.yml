@@ -1,11 +1,4 @@
 ---
-#- name: Set default VM definitions (with MAC address generation if not set)
-#  set_fact:
-#    vms: "{{ vms | map('combine', {'mac_address': (item.mac_address if item.mac_address is defined else ('52:54:00' | community.general.random_mac))}) | list }}"
-#  loop: "{{ vms }}"
-#  loop_control:
-#    loop_var: item
-
 - name: Load saved MAC addresses if the file exists
   ansible.builtin.include_vars:
     file: mac_addresses.json
@@ -41,6 +34,8 @@
   ansible.builtin.copy:
     content: "{{ updated_mac_addresses | to_json }}"
     dest: mac_addresses.json
+
+
 
 
     # - name: Copy VM over
