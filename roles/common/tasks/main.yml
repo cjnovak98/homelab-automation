@@ -1,4 +1,9 @@
----
+- name: Install all required packages.
+  yum:
+    name: "@Virtualization,podman,bind-utils,libguestfs-tools,cloud-init,virt-install,lm_sensors, python3-jmespath, cockpit, cockpit-machines,openssh-askpass"
+    state: installed
+  become: true
+
 - name: Make sure share dir is created
   file:
     path: /mnt/share
@@ -13,6 +18,15 @@
     label: "{{ item }}"
   become: true
 
+- name: Get all public key files in the directory
+  set_fact:
+    pub_keys: "{{ lookup('fileglob', 'auth_keys/*.pub') | map('file') | list }}"
+
+- name: Add public keys to authorized_keys
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ pub_keys }}"
+
 #- name: create {{ item }}'s authorized_keys
 #  become: true
 #  authorized_key:
@@ -26,8 +40,6 @@
 #  loop_control:
 #    label: "{{ item }}"
 
-# This must be after setting up passwordless sudo and the authorized_keys.
-
 - name: Allow users and service accounts to sudo nopasswd
   community.general.sudoers:
     name: allow-sudo
@@ -38,13 +50,6 @@
   loop: "{{ users + service_accounts }}"
   loop_control:
     label: "{{ item }}"
-  become: true
-
-## Virtualization and sushy packages setup
-- name: Install all required packages.
-  yum:
-    name: "@Virtualization,podman,bind-utils,libguestfs-tools,cloud-init,virt-install,lm_sensors, python3-jmespath, cockpit, cockpit-machines,openssh-askpass"
-    state: installed
   become: true
 
 - name: Append libvirt,wheel to users and service accounts
