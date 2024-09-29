@@ -8,9 +8,7 @@
 - name: Generate user and service accounts
   ansible.builtin.user:
     name: "{{ item }}"
-  loop: 
-    - "{{ users }}"
-    - "{{ service_accounts }}"
+  loop: "{{ users + service_accounts }}"
   loop_control:
     label: "{{ item }}"
   become: true
