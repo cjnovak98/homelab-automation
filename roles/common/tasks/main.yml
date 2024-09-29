@@ -18,15 +18,14 @@
     label: "{{ item }}"
   become: true
 
-- name: Get all public key files in the directory
+- name: Get all public key file paths in the directory
   set_fact:
-    pub_keys: "{{ lookup('fileglob', 'auth_keys/*.pub') | map('file') | list }}"
-  become: true
+    pub_key_paths: "{{ lookup('fileglob', '/path/to/auth_keys/*.pub') | list }}"
 
-- name: Add public keys to authorized_keys
+- name: Display the content of each public key file
   debug:
-    msg: "{{ item }}"
-  loop: "{{ pub_keys }}"
+    msg: "{{ lookup('file', item) }}"
+  loop: "{{ pub_key_paths }}"
 
 #- name: create {{ item }}'s authorized_keys
 #  become: true
