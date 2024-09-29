@@ -6,4 +6,4 @@ users:
 service_accounts:
   - ansible
 
-auth_keys_dir: playbooks/auth_keys
+auth_keys_dir: "playbooks/auth_keys"
