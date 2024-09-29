@@ -1,0 +1,9 @@
+---
+# defaults file for configure_users
+users:
+  - cnovak
+  - mnovak
+service_accounts:
+  - ansible
+
+auth_keys_dir: auth_keys

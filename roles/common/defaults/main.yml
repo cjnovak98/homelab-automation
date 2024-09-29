@@ -1,9 +1,2 @@
 ---
 # defaults file for common
-users:
-  - cnovak
-  - mnovak
-service_accounts:
-  - ansible
-
-auth_keys_dir: auth_keys

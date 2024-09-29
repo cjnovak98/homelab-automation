@@ -1,0 +1,66 @@
+---
+# tasks file for configure_users
+- name: Generate user and service accounts
+  ansible.builtin.user:
+    name: "{{ item }}"
+  loop: "{{ users + service_accounts }}"
+  loop_control:
+    label: "{{ item }}"
+  become: true
+
+- name: Find all public key files in the auth_keys directory
+  ansible.builtin.find:
+    paths: "{{ auth_keys_dir }}"
+    patterns: "*.pub"
+  register: pub_key_files
+
+- name: Read all public key contents
+  ansible.builtin.set_fact:
+    pub_keys: "{{ pub_keys | default([]) + [ lookup('file', item.path) ] }}"
+  loop: "{{ pub_key_files.files }}"
+  loop_control:
+    label: "{{ item.path }}"
+
+- name: Add each public key to authorized_keys for all users
+  ansible.builtin.authorized_key:
+    user: "{{ item.0 }}"
+    path: "/home/{{ item.0 }}/.ssh/authorized_keys"
+    key: "{{ item.1 }}"
+    state: present
+    exclusive: false
+  loop: "{{ (users + service_accounts) | product(pub_keys) | list }}"
+  loop_control:
+    label: "{{ item.0 }} - adding key"
+  become: true
+
+- name: Allow users and service accounts to sudo nopasswd
+  community.general.sudoers:
+    name: allow-sudo
+    state: present
+    user: "{{ item }}"
+    commands: ALL
+    nopassword: true
+  loop: "{{ users + service_accounts }}"
+  loop_control:
+    label: "{{ item }}"
+  become: true
+
+- name: Append libvirt,wheel to users and service accounts
+  user:
+    name: "{{ item }}"
+    groups:
+      - wheel
+      - libvirt
+  loop: "{{ users + service_accounts }}"
+  loop_control:
+    label: "{{ item }}"
+  become: true
+
+- name: Remove service account passwords
+  ansible.builtin.user:
+    name: "{{ item }}"
+    password: "*"
+  loop: "{{ service_accounts }}"
+  loop_control:
+    label: "{{ item }}"
+  become: true
