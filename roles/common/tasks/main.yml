@@ -20,7 +20,11 @@
 
 - name: Get all public key file paths in the directory
   set_fact:
-    pub_key_paths: "{{ lookup('fileglob', '/path/to/auth_keys/*.pub') | list }}"
+    pub_key_paths: "{{ lookup('fileglob', 'auth_keys/*.pub', wantlist=true) | list }}"
+
+- name: Display the content of all public key files
+  debug:
+    msg: "{{ pub_key_paths | map('extract', lookup('file')) | join('\n') }}"
 
 - name: Display the content of each public key file
   debug:
