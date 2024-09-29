@@ -3,6 +3,7 @@
   file:
     path: /mnt/share
     state: directory
+  become: true
 
 - name: Generate user accounts
   ansible.builtin.user:
@@ -10,6 +11,7 @@
   loop: "{{ users }}"
   loop_control:
     label: "{{ item }}"
+  become: true
 
 - name: Generate service accounts
   ansible.builtin.user:
@@ -18,6 +20,7 @@
   loop: "{{ service_accounts }}"
   loop_control:
     label: "{{ item }}"
+  become: true
 
 #- name: create {{ item }}'s authorized_keys
 #  become: true
@@ -44,12 +47,14 @@
   loop: "{{ users }}"
   loop_control:
     label: "{{ item }}"
+  become: true
 
 ## Virtualization and sushy packages setup
 - name: Install all required packages.
   yum:
     name: "@Virtualization,podman,bind-utils,libguestfs-tools,cloud-init,virt-install,lm_sensors, python3-jmespath, cockpit, cockpit-machines,openssh-askpass"
     state: installed
+  become: true
 
 - name: Append libvirt,wheel to {{ item }} user
   user:
@@ -60,6 +65,7 @@
   loop: "{{ users }}"
   loop_control:
     label: "{{ item }}"
+  become: true
 
 - name: Allow {{ item }} sudo, and disable password login
   community.general.sudoers:
@@ -73,6 +79,7 @@
     - "{{ users }}"
   loop_control:
     label: "{{ item }}"
+  become: true
 
 - name: Remove service account passwords
   ansible.builtin.user:
@@ -81,3 +88,4 @@
   loop: "{{ service_accounts }}"
   loop_control:
     label: "{{ item }}"
+  become: true
