@@ -28,14 +28,14 @@
 
 # This must be after setting up passwordless sudo and the authorized_keys.
 
-- name: Allow users to sudo nopasswd
+- name: Allow users and service accounts to sudo nopasswd
   community.general.sudoers:
     name: allow-sudo
     state: present
     user: "{{ item }}"
     commands: ALL
     nopassword: true
-  loop: "{{ users }}"
+  loop: "{{ users + service_accounts }}"
   loop_control:
     label: "{{ item }}"
   become: true
@@ -47,27 +47,13 @@
     state: installed
   become: true
 
-- name: Append libvirt,wheel to {{ item }} user
+- name: Append libvirt,wheel to users and service accounts
   user:
     name: "{{ item }}"
     groups:
       - wheel
       - libvirt
-  loop: "{{ users }}"
-  loop_control:
-    label: "{{ item }}"
-  become: true
-
-- name: Allow {{ item }} sudo, and disable password login
-  community.general.sudoers:
-    name: "allow-sudo-{{ item }}"
-    state: present
-    user: "{{ item }}"
-    commands: ALL
-    nopassword: true
-  loop:
-    - "{{ service_accounts }}"
-    - "{{ users }}"
+  loop: "{{ users + service_accounts }}"
   loop_control:
     label: "{{ item }}"
   become: true
