@@ -21,6 +21,7 @@
 - name: Get all public key files in the directory
   set_fact:
     pub_keys: "{{ lookup('fileglob', 'auth_keys/*.pub') | map('file') | list }}"
+  become: true
 
 - name: Add public keys to authorized_keys
   debug:
