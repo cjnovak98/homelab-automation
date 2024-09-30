@@ -1,0 +1,6 @@
+---
+# tasks file for hypervisor_config
+- name: Ensure the "Virtualization" Group is installed.
+  yum:
+    name: "@Virtualization,podman,bind-utils,libguestfs-tools,cloud-init,virt-install,lm_sensors, python3-jmespath, cockpit, cockpit-machines,openssh-askpass"
+    state: installed

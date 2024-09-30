@@ -1,10 +1,5 @@
 ---
 # tasks file for sushy
-      ## Sushy pre-reqs (creating dir, generating htpaswd & key/cert + sushy config
-- name: Make sure sushy dir is created
-  file:
-    path: /etc/sushy
-    state: directory
 - name: Creation of htpaswd file
   copy:
     dest: "/etc/sushy/auth"
@@ -48,7 +43,7 @@
     state: present
     ports: "8000:8000"
     command: "sushy-emulator -i :: -p 8000 --config /etc/sushy/sushy-emulator.conf"
-    volume:
+    volume: 
       - "/etc/sushy:/etc/sushy"
       - "/var/run/libvirt:/var/run/libvirt"
     generate_systemd:
