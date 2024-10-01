@@ -30,13 +30,6 @@
     content: "{{ updated_mac_addresses | to_json }}"
     dest: mac_addresses.json
 
-- name: Save updated MAC addresses to file
-  ansible.builtin.copy:
-    content: "{{ updated_mac_addresses | to_json }}"
-    dest: mac_addresses.json
-
-
-
 
     # - name: Copy VM over
     # command: cp "{{ baseline_image }}" "{{ disk_path }}" ## Don't scream at me, I'm being lazy. It'll get converted into idempotent language.
