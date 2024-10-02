@@ -36,4 +36,5 @@
 - name: Deploy VMs
   debug:
     msg: Testing
+  changed_when: True
   notify: Create a new VM
