@@ -33,11 +33,7 @@
 
     # - name: Copy VM over
     # command: cp "{{ baseline_image }}" "{{ disk_path }}" ## Don't scream at me, I'm being lazy. It'll get converted into idempotent language.
-- name: Create a new VM
-  community.libvirt.virt:
-    command: define
-    xml: "{{ lookup('template', 'vm_xml.j2') }}"
-  loop: "{{ vms }}"
-  loop_control:
-    loop_var: vm
-  become: true
+- name: Deploy VMs
+  debug:
+    msg: Testing
+  notify: Create a new VM
