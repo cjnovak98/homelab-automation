@@ -20,6 +20,7 @@
   ansible.builtin.file:
     path: "{{ item.mount }}"
     state: directory
+    mode: '0755'
   become: true
   with_item: "{{ nfs_mounts }}"
 
