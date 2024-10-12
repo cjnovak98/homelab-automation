@@ -5,7 +5,7 @@
   become: true
 
 - name: Ensure NFS mount dir is present
-  file:
+  ansible.builtin.file:
     path: "{{ item.mount }}"
     state: directory
   become: true
@@ -19,5 +19,5 @@
     boot: false
     state: mounted
     fstype: nfs
-  with_items: "{{ nfs_mounts }}"
+  with_item: "{{ nfs_mounts }}"
   become: true
