@@ -8,6 +8,17 @@
     label: "{{ item }}"
   become: true
 
+- name: Append libvirt to every user
+  user:
+    name: "{{ item }}"
+    groups:
+      - wheel
+      - libvirt
+  loop: "{{ users + service_accounts }}"
+  loop_control:
+    label: "{{ item }}"
+  become: true
+
 - name: Find all public key files in the auth_keys directory
   ansible.builtin.find:
     paths: "{{ auth_keys_dir }}"
