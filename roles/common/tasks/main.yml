@@ -1,11 +1,23 @@
 - name: Ensure all required packages are installed
   ansible.builtin.dnf:
-    name: "@Virtualization,podman,bind-utils,libguestfs-tools,cloud-init,virt-install,lm_sensors, python3-jmespath, cockpit, cockpit-machines,openssh-askpass"
+    name: "@Virtualization,podman,bind-utils,libguestfs-tools,cloud-init,virt-install,lm_sensors, python3-jmespath, cockpit, cockpit-machines,openssh-askpass,nfs-utils"
     state: installed
   become: true
 
 - name: Ensure NFS mount dir is present
   file:
-    path: /mnt/share
+    path: "{{ item.mount }}"
     state: directory
+  become: true
+  with_item: "{{ nfs_mounts }}"
+
+- name: Mount NFS volumes with noauto according to boot option
+  ansible.posix.mount:
+    src: "{{ item.fqdn }}:{{ item.location }}""
+    path: "{{ item.mount }}"
+    opts: noauto,x-systemd.automount,nofail
+    boot: false
+    state: mounted
+    fstype: nfs
+  with_items: "{{ nfs_mounts }}"
   become: true

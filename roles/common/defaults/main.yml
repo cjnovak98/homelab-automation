@@ -1,2 +1,9 @@
 ---
 # defaults file for common
+nfs_mounts:
+  - fqdn: "truenas.va.novak.com"
+    location: "/mnt/Main"
+    mount: "/mnt/va.share"
+  - fqdn: "truenas.nc.novak.com"
+    location: "/mnt/storage/share"
+    mount: "/mnt/nc.share"
