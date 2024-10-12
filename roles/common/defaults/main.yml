@@ -1,9 +1,23 @@
 ---
 # defaults file for common
 nfs_mounts:
-  - fqdn: "truenas.va.novak.com"
-    location: "/mnt/Data"
-    mount: "/mnt/va.share"
+  - fqdn: "truenas.va.novak.com" ## FQDN of the NFS server
+    location: "/mnt/Data" ## Location of mount on said NFS server
+    mount: "/mnt/va.share" ## Location to mount on local host
   - fqdn: "truenas.nc.novak.com"
     location: "/mnt/storage/share"
     mount: "/mnt/nc.share"
+
+common_packages:
+  - "@Virtualization"
+  - podman
+  - bind-utils
+  - libguestfs-tools
+  - cloud-init
+  - virt-install
+  - lm_sensors
+  - python3-jmespath
+  - cockpit
+  - cockpit-machines
+  - openssh-askpass
+  - nfs-utils
