@@ -13,7 +13,7 @@
 
 - name: Mount NFS volumes with noauto according to boot option
   ansible.posix.mount:
-    src: "{{ item.fqdn }}:{{ item.location }}""
+    src: "{{ item.fqdn }}:{{ item.location }}"
     path: "{{ item.mount }}"
     opts: noauto,x-systemd.automount,nofail
     boot: false
