@@ -5,7 +5,7 @@
       - podman
       - bind-utils
       - libguestfs-tools
-      - loud-init
+      - cloud-init
       - virt-install
       - lm_sensors
       - python3-jmespath
