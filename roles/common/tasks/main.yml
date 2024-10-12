@@ -1,6 +1,18 @@
 - name: Ensure all required packages are installed
   ansible.builtin.dnf:
-    name: "@Virtualization,podman,bind-utils,libguestfs-tools,cloud-init,virt-install,lm_sensors, python3-jmespath, cockpit, cockpit-machines,openssh-askpass,nfs-utils"
+    name:
+      - "@Virtualization"
+      - podman
+      - bind-utils
+      - libguestfs-tools
+      - loud-init
+      - virt-install
+      - lm_sensors
+      - python3-jmespath
+      - cockpit
+      - cockpit-machines
+      - openssh-askpass
+      - nfs-utils
     state: installed
   become: true
 
