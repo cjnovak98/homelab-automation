@@ -21,3 +21,5 @@ common_packages:
   - cockpit-machines
   - openssh-askpass
   - nfs-utils
+  - ansible
+  - git

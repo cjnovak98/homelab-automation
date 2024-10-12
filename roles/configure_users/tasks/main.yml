@@ -8,17 +8,6 @@
     label: "{{ item }}"
   become: true
 
-- name: Append libvirt to every user
-  user:
-    name: "{{ item }}"
-    groups:
-      - wheel
-      - libvirt
-  loop: "{{ users + service_accounts }}"
-  loop_control:
-    label: "{{ item }}"
-  become: true
-
 - name: Find all public key files in the auth_keys directory
   ansible.builtin.find:
     paths: "{{ auth_keys_dir }}"
@@ -66,6 +55,17 @@
     label: "{{ item }}"
   become: true
 
+
+- name: Start and enable firewalld and cockpit.
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  become: true
+  loop:
+    - firewalld
+    - cockpit
+  
 - name: Remove service account passwords
   ansible.builtin.user:
     name: "{{ item }}"
