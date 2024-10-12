@@ -22,7 +22,7 @@
     state: directory
     mode: '0755'
   become: true
-  with_item: "{{ nfs_mounts }}"
+  with_items: "{{ nfs_mounts }}"
 
 - name: Mount NFS volumes with noauto according to boot option
   ansible.posix.mount:
@@ -32,5 +32,5 @@
     boot: false
     state: mounted
     fstype: nfs
-  with_item: "{{ nfs_mounts }}"
+  with_items: "{{ nfs_mounts }}"
   become: true
