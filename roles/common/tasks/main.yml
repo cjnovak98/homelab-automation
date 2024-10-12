@@ -1,6 +1,6 @@
 - name: Ensure all required packages are installed
   ansible.builtin.dnf:
-    name: {{ common_packages }}
+    name: "{{ common_packages }}"
     state: installed
   become: true
 
