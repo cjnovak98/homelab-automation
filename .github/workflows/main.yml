@@ -1,0 +1,9 @@
+            - name: Ansible Molecule
+  # You may pin to the exact commit or the version.
+  # uses: gofrolist/molecule-action@fd5ff78a7db38602a2d267f05f17bdf9acd6d3b9
+  uses: gofrolist/molecule-action@v2.7.50
+  with:
+    molecule_options: # optional
+    # Commands:
+  lint
+          
