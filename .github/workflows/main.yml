@@ -38,9 +38,5 @@ jobs:
   # You may pin to the exact commit or the version.
   # uses: gofrolist/molecule-action@fd5ff78a7db38602a2d267f05f17bdf9acd6d3b9
       - name: Run role test
-        run: >-
-          molecule --version &&
-          ansible --version &&
-          cd homelab-automation
-          molecule test
-          working-directory: homelab-automation
+        run: molecule test
+         working-directory: homelab-automation
