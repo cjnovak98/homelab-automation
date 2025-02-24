@@ -43,4 +43,4 @@ jobs:
           ansible --version &&
           cd homelab-automation
           molecule test
-          
+          working-directory: homelab-automation
