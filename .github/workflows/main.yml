@@ -41,5 +41,5 @@ jobs:
         run: >-
           molecule --version &&
           ansible --version &&
-          pwd
+          pwd &&
           molecule test
