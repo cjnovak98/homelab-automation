@@ -28,6 +28,4 @@ jobs:
   # uses: gofrolist/molecule-action@fd5ff78a7db38602a2d267f05f17bdf9acd6d3b9
       - name: Molecule
         uses: gofrolist/molecule-action@v2.7.50
-        with:
-          molecule_options: lint
           
