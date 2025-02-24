@@ -42,4 +42,5 @@ jobs:
           molecule --version &&
           ansible --version &&
           pwd &&
+          ls &&
           molecule test
