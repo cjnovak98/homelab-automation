@@ -18,6 +18,9 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   molecule:
+    defaults:
+      run:
+        working-directory: homelab-automation
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -39,4 +42,3 @@ jobs:
   # uses: gofrolist/molecule-action@fd5ff78a7db38602a2d267f05f17bdf9acd6d3b9
       - name: Run role test
         run: molecule test
-         working-directory: homelab-automation
