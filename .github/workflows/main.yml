@@ -41,6 +41,5 @@ jobs:
         run: >-
           molecule --version &&
           ansible --version &&
-          pwd &&
-          ls &&
+          cd cjnovak98/homelab-automation &&
           molecule test
