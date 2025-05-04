@@ -7,4 +7,4 @@
       ansible.builtin.debug:
         msg: "This is the effective test"
   roles:
-    - cnovak.homelab_automation.common
+    - homelab_automation.common
