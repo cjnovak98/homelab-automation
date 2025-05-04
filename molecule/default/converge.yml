@@ -6,6 +6,9 @@
     - name: Replace this task with one that validates your content
       ansible.builtin.debug:
         msg: "This is the effective test"
+    - name: Print debug information because I'm tired of this
+      ansible.builtin.command:
+        cmd: "ansible --version"
     - name: Include role
       ansible.builtin.include_role:
         name: cnovak.homelab_automation.common
