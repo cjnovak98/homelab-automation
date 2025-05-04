@@ -12,4 +12,5 @@ platforms:
     image: quay.io/centos/centos:stream8
 provisioner:
   name: ansible
+  config_file: ./ansible.cfg
 
