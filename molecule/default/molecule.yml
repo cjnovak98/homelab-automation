@@ -14,6 +14,5 @@ platforms:
 provisioner:
   name: ansible
   config_options:
-    defaults:
-      collections_path: ${HOME}/.ansible/collections:/usr/share/ansible/collections
+    collections_path: ${HOME}/.ansible/collections:/usr/share/ansible/collections
 
