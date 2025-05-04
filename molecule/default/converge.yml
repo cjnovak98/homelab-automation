@@ -9,6 +9,10 @@
     - name: Print debug information because I'm tired of this
       ansible.builtin.command:
         cmd: "ansible --version"
+      register: ansible_version
+    - name: Print this bitch
+      ansible.builtin.debug:
+        msg: "{{ ansible_version.stdout }}"
     - name: Include role
       ansible.builtin.include_role:
         name: cnovak.homelab_automation.common
