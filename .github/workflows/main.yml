@@ -42,4 +42,4 @@ jobs:
           molecule --version &&
           ansible --version &&
           cd cjnovak98/homelab-automation &&
-          molecule converge --debug
+          molecule --debug converge
