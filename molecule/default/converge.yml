@@ -15,4 +15,4 @@
         msg: "{{ ansible_version }}"
     - name: Include role
       ansible.builtin.include_role:
-        name: cnovak.homelab_automation.common
+        name: cnovak.homelab_config.common
