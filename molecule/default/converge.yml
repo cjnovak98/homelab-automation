@@ -6,5 +6,7 @@
     - name: Replace this task with one that validates your content
       ansible.builtin.debug:
         msg: "This is the effective test"
+  collections:
+    - cnovak.homelab_automation
   roles:
-    - cnovak.homelab_automation.common
+    - common
