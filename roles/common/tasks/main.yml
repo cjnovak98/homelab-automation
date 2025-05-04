@@ -17,8 +17,8 @@
 
 - name: If NFS the above task times out, print an error message
   ansible.builtin.debug:
-    msg: "NFS mount dir creation timed out for"
-  when: nfs_mount_state.failed
+    msg: "The system timed out trying to mount one or more of the NFS volumes. Check to make sure there is not a stale mount or reboot the system."
+  when: nfs_mount_state is failed 
 
 - name: Mount NFS volumes with noauto according to boot option
   ansible.posix.mount:
