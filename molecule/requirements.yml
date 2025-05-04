@@ -1,0 +1,7 @@
+---
+collections:
+  - name: https://github.com/cjnovak98/homelab-automation.git
+    type: git
+    version: main
+  - name: community.general
+  - name: ansible.posix
