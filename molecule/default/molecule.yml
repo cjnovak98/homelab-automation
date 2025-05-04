@@ -13,5 +13,7 @@ platforms:
     image: quay.io/centos/centos:stream8
 provisioner:
   name: ansible
-  config_file: ./ansible.cfg
+  config_options:
+    defaults:
+      collections_path: ${HOME}/.ansible/collections:/usr/share/ansible/collections
 
