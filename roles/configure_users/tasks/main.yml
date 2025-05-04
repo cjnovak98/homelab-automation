@@ -65,7 +65,7 @@
   loop:
     - firewalld
     - cockpit
-  
+
 - name: Remove service account passwords
   ansible.builtin.user:
     name: "{{ item }}"
