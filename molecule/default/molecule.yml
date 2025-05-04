@@ -11,7 +11,7 @@ dependency:
   options:
     ignore_errors: true
     ignore_certs: true
-    role_file: molecule/requirements.yml
+    requirements-file: molecule/requirements.yml
 provisioner:
   name: ansible
 verifier:
