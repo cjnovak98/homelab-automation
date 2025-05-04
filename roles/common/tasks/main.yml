@@ -10,6 +10,15 @@
     state: directory
   become: true
   with_items: "{{ nfs_mounts }}"
+  timeout: 5
+  ignore_errors: yes
+  register: nfs_mount_state
+
+
+- name: If NFS the above task times out, print an error message
+  ansible.builtin.debug:
+    msg: "NFS mount dir creation timed out for"
+  when: nfs_mount_state.failed
 
 - name: Mount NFS volumes with noauto according to boot option
   ansible.posix.mount:

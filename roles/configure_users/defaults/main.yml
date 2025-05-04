@@ -3,6 +3,7 @@
 users:
   - cnovak
   - mnovak
+  - kimstewart
 service_accounts:
   - ansible
 
