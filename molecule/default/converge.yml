@@ -12,7 +12,7 @@
       register: ansible_version
     - name: Print this bitch
       ansible.builtin.debug:
-        msg: "{{ ansible_version.stdout }}"
+        msg: "{{ ansible_version }}"
     - name: Include role
       ansible.builtin.include_role:
         name: cnovak.homelab_automation.common
