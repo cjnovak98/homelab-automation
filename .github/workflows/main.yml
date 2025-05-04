@@ -7,7 +7,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     paths:
-      - 'roles/chrony/**'
+      - 'molecule/**'
       - '.github/workflows/main.yml'
   pull_request:
     branches: [ "main" ]
