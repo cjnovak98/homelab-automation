@@ -13,6 +13,6 @@ platforms:
     image: quay.io/centos/centos:stream8
 provisioner:
   name: ansible
-  config_options:
-    collections_path: /home/runner/.ansible/collections:/usr/share/ansible/collections
+  env:
+    ANSIBLE_COLLECTIONS_PATH: ${HOME}/.ansible/collections
 
