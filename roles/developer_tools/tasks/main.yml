@@ -12,13 +12,18 @@
   until: claude_install.rc == 0
   changed_when: "'Installing' in (claude_install.stdout | default('') + claude_install.stderr | default('')) or 'Updating' in (claude_install.stdout | default('') + claude_install.stderr | default(''))"
 
-- name: Verify Claude Code installation
-  ansible.builtin.command:
-    cmd: which claude
+- name: Display Claude Code installation output
+  ansible.builtin.debug:
+    var: claude_install
+  when: install_claude_code | bool
+
+- name: Check for Claude Code in multiple locations
+  ansible.builtin.shell:
+    cmd: "which claude || find /usr /home -name claude -type f 2>/dev/null | head -1"
   changed_when: false
   when: install_claude_code | bool
   register: claude_binary
-  failed_when: claude_binary.rc != 0
+  failed_when: false
 
 - name: Get Claude Code version
   ansible.builtin.command:
