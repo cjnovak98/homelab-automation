@@ -53,9 +53,14 @@
   until: opencode_install.rc == 0
   changed_when: "'Installing' in (opencode_install.stdout | default('') + opencode_install.stderr | default('')) or 'Updating' in (opencode_install.stdout | default('') + opencode_install.stderr | default(''))"
 
+- name: Display OpenCode installation output
+  ansible.builtin.debug:
+    var: opencode_install
+  when: install_opencode | bool
+
 - name: Find OpenCode binary location
   ansible.builtin.shell:
-    cmd: "find /root/.local /usr/local -name opencode -type f 2>/dev/null | head -1"
+    cmd: "find /root /usr /opt -name opencode -type f 2>/dev/null | head -1"
   changed_when: false
   when: install_opencode | bool
   register: opencode_location
