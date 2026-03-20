@@ -1,0 +1,69 @@
+---
+# tasks file for developer_tools
+
+- name: Install Claude Code CLI
+  ansible.builtin.shell:
+    cmd: "curl -fsSL {{ claude_code_install_url }} | bash"
+  become: true
+  when: install_claude_code | bool
+  register: claude_install
+  retries: 3
+  delay: 5
+  until: claude_install.rc == 0
+  changed_when: "'Installing' in (claude_install.stdout | default('') + claude_install.stderr | default('')) or 'Updating' in (claude_install.stdout | default('') + claude_install.stderr | default(''))"
+
+- name: Verify Claude Code installation
+  ansible.builtin.command:
+    cmd: which claude
+  changed_when: false
+  when: install_claude_code | bool
+  register: claude_binary
+  failed_when: claude_binary.rc != 0
+
+- name: Get Claude Code version
+  ansible.builtin.command:
+    cmd: claude --version
+  changed_when: false
+  when: install_claude_code | bool
+  register: claude_version
+  failed_when: false
+
+- name: Install OpenCode CLI
+  ansible.builtin.shell:
+    cmd: "curl -fsSL {{ opencode_install_url }} | bash"
+  become: true
+  when: install_opencode | bool
+  register: opencode_install
+  retries: 3
+  delay: 5
+  until: opencode_install.rc == 0
+  changed_when: "'Installing' in (opencode_install.stdout | default('') + opencode_install.stderr | default('')) or 'Updating' in (opencode_install.stdout | default('') + opencode_install.stderr | default(''))"
+
+- name: Verify OpenCode installation
+  ansible.builtin.command:
+    cmd: which opencode
+  changed_when: false
+  when: install_opencode | bool
+  register: opencode_binary
+  failed_when: opencode_binary.rc != 0
+
+- name: Get OpenCode version
+  ansible.builtin.command:
+    cmd: opencode --version
+  changed_when: false
+  when: install_opencode | bool
+  register: opencode_version
+  failed_when: false
+
+- name: Display installation summary
+  ansible.builtin.debug:
+    msg: |
+      Developer Tools Installation Summary:
+      - Claude Code CLI: {{ 'Installed' if install_claude_code and claude_binary.rc == 0 else 'Skipped' }}
+      {% if install_claude_code and claude_version.rc == 0 %}
+        Version: {{ claude_version.stdout | trim }}
+      {% endif %}
+      - OpenCode CLI: {{ 'Installed' if install_opencode and opencode_binary.rc == 0 else 'Skipped' }}
+      {% if install_opencode and opencode_version.rc == 0 %}
+        Version: {{ opencode_version.stdout | trim }}
+      {% endif %}

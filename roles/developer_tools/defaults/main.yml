@@ -1,0 +1,13 @@
+---
+# defaults file for developer_tools
+
+# Install Claude Code CLI
+install_claude_code: true
+claude_code_install_url: "https://claude.ai/install.sh"
+
+# Install OpenCode CLI
+install_opencode: true
+opencode_install_url: "https://opencode.ai/install"
+
+# Force reinstall on each run to ensure latest version
+force_update: true

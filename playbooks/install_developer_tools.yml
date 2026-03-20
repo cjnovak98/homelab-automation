@@ -1,0 +1,11 @@
+---
+- name: Install developer CLI tools
+  hosts: hypervisors
+  become: true
+
+  roles:
+    - role: cnovak.homelab_config.developer_tools
+      vars:
+        install_claude_code: true
+        install_opencode: true
+        force_update: true

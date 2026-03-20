@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include developer_tools role
+      ansible.builtin.include_role:
+        name: cnovak.homelab_config.developer_tools
+      vars:
+        force_update: false  # Don't force update in tests to speed up execution

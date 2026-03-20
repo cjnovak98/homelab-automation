@@ -1,0 +1,16 @@
+---
+driver:
+  name: default
+platforms:
+  - name: instance
+    image: localhost/bastion-container:latest
+provisioner:
+  name: ansible
+  options:
+    D: true
+verifier:
+  name: ansible
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .

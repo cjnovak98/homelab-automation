@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Christopher Novak
+  description: Installs and maintains developer CLI tools (Claude Code, OpenCode)
+  company: Personal Homelab
+  license: MIT
+  min_ansible_version: "2.1"
+  platforms:
+    - name: Fedora
+      versions:
+        - all
+    - name: EL
+      versions:
+        - "8"
+        - "9"
+  galaxy_tags:
+    - development
+    - cli
+    - tools
+    - ai
+
+dependencies: []

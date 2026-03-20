@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Check Claude Code binary exists
+      ansible.builtin.command:
+        cmd: which claude
+      register: claude_which
+      changed_when: false
+      failed_when: claude_which.rc != 0
+
+    - name: Verify Claude Code runs
+      ansible.builtin.command:
+        cmd: claude --version
+      register: claude_version
+      changed_when: false
+      failed_when: claude_version.rc != 0
+
+    - name: Display Claude Code version
+      ansible.builtin.debug:
+        msg: "Claude Code version: {{ claude_version.stdout }}"
+
+    - name: Check OpenCode binary exists
+      ansible.builtin.command:
+        cmd: which opencode
+      register: opencode_which
+      changed_when: false
+      failed_when: opencode_which.rc != 0
+
+    - name: Verify OpenCode runs
+      ansible.builtin.command:
+        cmd: opencode --version
+      register: opencode_version
+      changed_when: false
+      failed_when: opencode_version.rc != 0
+
+    - name: Display OpenCode version
+      ansible.builtin.debug:
+        msg: "OpenCode version: {{ opencode_version.stdout }}"
